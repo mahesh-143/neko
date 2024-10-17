@@ -8,7 +8,30 @@ fn read_file(file_path: &String, flag: &str) -> io::Result<()> {
     let reader = io::BufReader::new(file);
 
     if flag == "-h" || flag == "--help" {
-        println!("help");
+        println!("Usage: neko [flag] <file_path>");
+        println!("Concatenate FILE(s) to standard output.");
+        println!(
+            "
+With no FILE, or when FILE is -, read standard input.
+
+  -A, --show-all           equivalent to -vET
+  -b, --number-nonblank    number nonempty output lines, overrides -n
+  -e                       equivalent to -vE
+  -E, --show-ends          display $ at end of each line
+  -n, --number             number all output lines
+  -s, --squeeze-blank      suppress repeated empty output lines
+  -t                       equivalent to -vT
+  -T, --show-tabs          display TAB characters as ^I
+  -u                       (ignored)
+  -v, --show-nonprinting   use ^ and M- notation, except for LFD and TAB
+      --help        display this help and exit
+      --version     output version information and exit
+
+Examples:
+  cat f - g  Output f's contents, then standard input, then g's contents.
+  cat        Copy standard input to standard output.
+    "
+        );
     } else if flag == "-n" || flag == "--number" {
         for (index, line) in reader.lines().enumerate() {
             let content = line?;
@@ -28,10 +51,10 @@ fn read_file(file_path: &String, flag: &str) -> io::Result<()> {
 fn main() {
     let args: Vec<String> = env::args().collect();
 
-    if args.len() < 2 {
-        eprintln!("Usage: <program> [flag] <file_path>");
-        return;
-    }
+    //if args.len() < 2 {
+    //    eprintln!("Usage: neko [flag] <file_path>");
+    //    return;
+    //}
 
     let flag: &str;
     let file_path: &String;
